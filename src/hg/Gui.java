@@ -68,9 +68,19 @@ public class Gui extends JFrame{
 		
 		
 		answerField = new JTextField();
-		
+		answerField.addKeyListener(new KeyListener() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				if(arg0.getKeyCode() == arg0.VK_ENTER && answerField.getText().length() > 0)	submitAction.actionPerformed(null);
+			}
+			@Override
+			public void keyReleased(KeyEvent arg0) {}
+			@Override
+			public void keyTyped(KeyEvent arg0) {}
+		});
 		answer_panel.setLayout(new BoxLayout(answer_panel, BoxLayout.Y_AXIS));
-		answer_panel.add(new JLabel("<Problem List>"));
+		answer_panel.add(new JLabel("Insert your Answer below."));
 		answer_panel.add(answerField);
 		answer_panel.add(submit);
 		
