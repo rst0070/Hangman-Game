@@ -1,18 +1,27 @@
 package hg;
 
+import java.util.Date;
+import hg.view.ViewMain;
+
 public class Main {
-	static int corrects = 0;
-	static int fails = 0;
-	static int p_num = 1;
-	static int fails_on_one = 0;
 	
-	static ProblemBank bank;
+	//프로그램 종료시 호출되는 스레드
+	public static class SaveDataAtShutDown extends Thread{
+		@Override
+		public void run() {
+			System.out.println("Saving..");
+			hg.model.ScoreHistory.savePresentScore();
+		}
+	}
 	
 	public static void main(String[] args) {
-		bank = new ProblemBank("words.txt");
-		Gui window = new Gui();
+		System.out.println("time: "+new Date().toString());
 		
-		window.startGame();
+		//프로그램 종료시 score history에 저장.
+		Runtime r = Runtime.getRuntime();
+		r.addShutdownHook(new SaveDataAtShutDown());
+		
+		new ViewMain();
 		
 	}
 }

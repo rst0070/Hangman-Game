@@ -1,4 +1,4 @@
-package hg;
+package hg.model;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
@@ -6,19 +6,25 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import hg.Util;
+
+/**
+ * This is a container class of static method(getProblem()) that returns 'Problem' object.
+ * @author Wonbin Kim
+ *
+ */
 public class ProblemBank {
-	File file;
-	//final int LastWordLine = 25143;
-	//FileReader fr;
-	BufferedReader br;
-	ArrayList<String> words;
+	private static  File file;
+	private static BufferedReader br;
+	private static ArrayList<String> words;
 	
-	public ProblemBank(String filePath) {
-		file = new File(filePath);
+	static{
+		file = new File("words.txt");
 		try {
 			br = new BufferedReader(new FileReader(file));
 		}catch(FileNotFoundException e) {
-			System.out.println("word파일의 경로가 잘못되었습니다. path.txt파일과 word.txt파일을 확인해 주십시오.");
+			JOptionPane.showConfirmDialog(null, "can not find 'word.txt' file.\n check path or name of the file", "Error", JOptionPane.CLOSED_OPTION);
 			System.exit(0);
 		}
 		
@@ -27,7 +33,7 @@ public class ProblemBank {
 		readFile();
 	}
 	
-	private void readFile() {
+	private static void readFile() {
 		String word;
 		try {
 			while((word = br.readLine())!=null)
@@ -37,7 +43,7 @@ public class ProblemBank {
 		}
 	}
 	
-	public Problem getProblem() {
+	public static Problem getProblem() {
 		int random = Util.random()%words.size();
 		
 		String answer = words.get(random);
@@ -60,14 +66,13 @@ public class ProblemBank {
 		String problem_str = new String(problem);
 		
 		Problem pb = new Problem() {
-
 			@Override
-			public String getAnswer() {
+			public String answer() {
 				return answer;
 			}
 
 			@Override
-			public String getProblem() {
+			public String problem() {
 				return problem_str;
 			}
 			
